@@ -1,0 +1,8 @@
+.icon_fix{
+    position: relative; top:-2px
+}
+
+.formpage{
+    background-color: rgba(255, 255, 255, 0.203);
+    color: blue;
+}
