@@ -1,0 +1,18 @@
+# django model ko json me convert karna ke liya (serialization) kahta h
+#json ko model ma convert (deserialization)
+
+from rest_framework import serializers
+from .models import *
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields=['id','category_name','creation_date']
+
+class FoodSerializer(serializers.ModelSerializer):
+    category_name = serializers.CharField(source='category.category_name', read_only=True)
+    image = serializers.ImageField(required =False)
+    is_available=serializers.BooleanField(required=False,default=True)
+    class Meta:
+        model = Food
+        fields=['id','category','category_name','item_name','item_price','item_quantity','item_description','image','is_available']        

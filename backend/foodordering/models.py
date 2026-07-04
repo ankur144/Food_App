@@ -6,8 +6,8 @@ class User(models.Model):
     first_name=models.CharField(max_length=50)
     last_name=models.CharField(max_length=50)
     email=models.EmailField(max_length=50,unique=True)
-    mobile=models.CharField(max_length=10)
-    passwprd=models.CharField(max_length=50)
+    mobile=models.CharField(max_length=15,null=True)
+    password=models.CharField(max_length=50)
     reg_date=models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -20,11 +20,11 @@ class Category(models.Model):
     creation_date=models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return {self.category_name} 
+        return self.category_name
     
 
 class Food(models.Model):
-    Category=models.ForeignKey(Category,on_delete=models.CASCADE)
+    category = models.ForeignKey(Category,on_delete=models.CASCADE)    
     item_name=models.CharField(max_length=50)
     item_price=models.DecimalField(max_digits=10,decimal_places=2)
     item_description=models.TextField(max_length=500,null=True,blank=True)
@@ -35,4 +35,15 @@ class Food(models.Model):
     def __str__(self):
         return f"{self.item_name} {self.item_quantity}"    
     
+# cart
+
+class Order(models.Model):
+    User = models.ForeignKey(User,on_delete=models.CASCADE)    
+    food=models.ForeignKey(Food,on_delete=models.CASCADE)
+    quantity=models.PositiveIntegerField(default=1)
+    is_order_placed=models.BooleanField(default=False)
+    order_number=models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"{self.order_number} {self.User}"     
     
