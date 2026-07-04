@@ -1,0 +1,46 @@
+.navbar-brand,.nav-link {
+    display: inline-flex;
+    align-items: center;
+/* transition: color 0.3s , transfome 0.3s; */
+
+}
+
+.navbar-brand:hover{
+    color: #FFC107 ;
+    transform: translateY(-2px);
+    transition: color 0.3s , transfome 0.3s;
+
+}
+
+.navbar-brand:hover svg{
+ animation: shake 0.3s ease;
+
+}
+@keyframes shake {
+    0%{transform: rotate(0deg);}
+    25%{transform: rotate(-5deg);}
+    50%{transform: rotate(5deg);}
+    70%{transform: rotate(-3deg);}
+    100%{transform: rotate(0deg);}
+
+}
+.nav-link:hover{
+    background-color: #FFC107 !important;
+    border-radius: 0.25rem;
+    color: #db3545 !important;
+    font-weight: bold;
+    transition: background-color 0.5s ;
+}
+
+.nav-link:hover svg{
+     animation: shake 0.3s ease;
+}
+@keyframes shake {
+    0%{transform: rotate(0deg);}
+    25%{transform: rotate(-5deg);}
+    50%{transform: rotate(5deg);}
+    70%{transform: rotate(-3deg);}
+    100%{transform: rotate(0deg);}
+
+}
+
