@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
 import PublicLayout from "../components/PublicLayout";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useParams, useNavigate } from "react-router-dom";
-import Zoom from "react-medium-image-zoom"
-import 'react-medium-image-zoom/dist/styles.css';
+import Zoom from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
+import { toast, ToastContainer } from "react-toastify";
 
 const FoodDetail = () => {
   const userId = localStorage.getItem("userId");
 
-  const [food, setFood] = useState([null]);
-
+  const [food, setFood] = useState(null);
   const { id } = useParams();
-
+  const navigate = useNavigate();
   useEffect(() => {
     fetch(`http://127.0.0.1:8000/api/foods/${id}`)
       .then((res) => res.json())
@@ -19,18 +19,48 @@ const FoodDetail = () => {
         setFood(data);
       });
   }, []);
+
+  const handleAddToCart = async () => {
+    if (!userId) {
+      navigate("/login");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/cart/add/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: userId,
+          foodId: food.id,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (response.status === 200) {
+        toast.success(result.message || "Item added to cart");
+      } else {
+        toast.error(result.message || "Something went wrong");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Error connecting to server");
+    }
+  };
+
   if (!food) return <div>Loading...</div>;
   return (
     <PublicLayout>
+      <ToastContainer autoClose={2000} position="top-right" />
       <div className="py-5 container">
         <div className="row">
           <div className="col md-5 text-center">
-
             <Zoom>
-                <img
-              src={`http://127.0.0.1:8000${food.image}`}
-              style={{ width: "100%", mxheight: "300px" }}
-            />
+              <img
+                src={`http://127.0.0.1:8000${food.image}`}
+                style={{ width: "100%", mxheight: "300px" }}
+              />
             </Zoom>
           </div>
 
@@ -48,8 +78,8 @@ const FoodDetail = () => {
 
             {food.is_available ? (
               <button
-                
                 className="btn btn-warning btn-lg mt-3 px-4"
+                onClick={handleAddToCart}
               >
                 <i className="fas fa-cart-plus  me-1"></i> Add to Cart
               </button>

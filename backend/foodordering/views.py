@@ -151,5 +151,45 @@ def food_detail(request,id):
     return Response(serializer.data) 
 
 
+#  Add to cart
 
+@api_view(['POST'])
+def add_to_cart(request):
 
+    user_id = request.data.get('userId')
+    food_id = request.data.get('foodId')
+
+    try:
+        user = User.objects.get(id=user_id)
+        food = Food.objects.get(id=food_id)
+
+        order, created = Order.objects.get_or_create(
+            user=user,
+            food=food,
+            is_order_placed=False,
+            defaults={"quantity": 1}
+        )
+
+        if not created:
+            order.quantity += 1
+            order.save()
+
+        return Response({
+            "message": "Food added to cart successfully"
+        }, status=200)
+
+    except User.DoesNotExist:
+        return Response({
+            "message": "User not found"
+        }, status=404)
+
+    except Food.DoesNotExist:
+        return Response({
+            "message": "Food not found"
+        }, status=404)
+
+    except Exception as e:
+        print(e)
+        return Response({
+            "message": str(e)
+        }, status=500)

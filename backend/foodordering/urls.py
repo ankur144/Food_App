@@ -13,4 +13,6 @@ urlpatterns = [
     path('register/',register_user),
     path('login/',login_user),
     path('foods/<int:id>',food_detail),
+    path('cart/add/',add_to_cart),
+    
 ]

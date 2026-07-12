@@ -33,17 +33,19 @@ class Food(models.Model):
     is_available=models.BooleanField(default=True)
 
     def __str__(self):
-        return f"{self.item_name} {self.item_quantity}"    
+        return f"{self.item_name} ({self.item_quantity})"    
     
 # cart
 
 class Order(models.Model):
-    User = models.ForeignKey(User,on_delete=models.CASCADE)    
-    food=models.ForeignKey(Food,on_delete=models.CASCADE)
-    quantity=models.PositiveIntegerField(default=1)
-    is_order_placed=models.BooleanField(default=False)
-    order_number=models.CharField(max_length=100)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    food = models.ForeignKey(Food, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    is_order_placed = models.BooleanField(default=False)
+    order_number = models.CharField(max_length=100, null=True, blank=True)
 
     def __str__(self):
-        return f"{self.order_number} {self.User}"     
+        return f"{self.user.first_name} - {self.food.item_name}"    
     
+
+   
