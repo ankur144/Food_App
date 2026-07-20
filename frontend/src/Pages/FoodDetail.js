@@ -5,10 +5,11 @@ import { useParams, useNavigate } from "react-router-dom";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 import { toast, ToastContainer } from "react-toastify";
+// import 'react-toastify/dist/ReactToastify.css';
 
 const FoodDetail = () => {
+  
   const userId = localStorage.getItem("userId");
-
   const [food, setFood] = useState(null);
   const { id } = useParams();
   const navigate = useNavigate();
@@ -40,6 +41,11 @@ const FoodDetail = () => {
 
       if (response.status === 200) {
         toast.success(result.message || "Item added to cart");
+
+        setTimeout(() => {
+          navigate('/cart');
+        }, 2000);
+  
       } else {
         toast.error(result.message || "Something went wrong");
       }

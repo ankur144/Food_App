@@ -193,3 +193,10 @@ def add_to_cart(request):
         return Response({
             "message": str(e)
         }, status=500)
+
+from .serializers import CartOrderSerializer  
+@api_view(['GET'])  
+def grt_cart_items(request,user_id):
+    orders = Order.objects.filter(user_id=user_id , is_order_placed=False).select_related('food')
+    serializers = CartOrderSerializer(orders,many=True)
+    return Response(serializers.data)

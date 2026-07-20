@@ -15,4 +15,11 @@ class FoodSerializer(serializers.ModelSerializer):
     is_available=serializers.BooleanField(required=False,default=True)
     class Meta:
         model = Food
-        fields=['id','category','category_name','item_name','item_price','item_quantity','item_description','image','is_available']        
+        fields=['id','category','category_name','item_name','item_price','item_quantity','item_description','image','is_available']       
+
+class CartOrderSerializer(serializers.ModelSerializer):
+    food = FoodSerializer()
+    class Meta:
+        model = Order
+        fields=['id','food','quantity'] 
+                

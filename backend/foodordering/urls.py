@@ -14,5 +14,6 @@ urlpatterns = [
     path('login/',login_user),
     path('foods/<int:id>',food_detail),
     path('cart/add/',add_to_cart),
+    path('cart/<int:user_id>/',grt_cart_items),
     
 ]

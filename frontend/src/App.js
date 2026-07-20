@@ -10,6 +10,7 @@ import SearchPage from './Pages/SearchPage';
 import Register from './components/Register';
 import Login from './components/Login';
 import FoodDetail from './Pages/FoodDetail';
+import Cart from './Pages/Cart';
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
       <Route path='/register' element={<Register/>}></Route>
       <Route path='/login' element={<Login/>}></Route>
       <Route path='/food/:id' element={<FoodDetail/>}></Route>
+      <Route path='/cart' element={<Cart/>}></Route>
       
 
 
